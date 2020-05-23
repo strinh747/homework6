@@ -5,7 +5,7 @@ $(document).ready(function() {
     var m = moment();
     currentDate = m.format('MM/DD/YYYY');
 
-    var cities = [];
+    var cities = ["Miami"];
     renderCities();
     displayCurrentWeather(cities[cities.length-1]);
     displayFiveDayWeather(cities[cities.length-1]);
@@ -38,15 +38,17 @@ $(document).ready(function() {
     function renderCities() {
         var storedCities = localStorage.getItem("cities");
         cities = JSON.parse(storedCities);
-        $("#city-button-storage").empty()
-        for (i=0; i<cities.length; i++) {
-            var div = $("<div>");
-            var button = $("<button>");
-            button.text(cities[i]);
-            button.attr("class", "city-button");
-            button.attr("city-data", cities[i]);
-            div.append(button);
-            $("#city-button-storage").prepend(div);
+        $("#city-button-storage").empty();
+        if (cities.length !== null) {
+          for (i=0; i<cities.length; i++) {
+              var div = $("<div>");
+              var button = $("<button>");
+              button.text(cities[i]);
+              button.attr("class", "city-button");
+              button.attr("city-data", cities[i]);
+              div.append(button);
+              $("#city-button-storage").prepend(div);
+          }
         }
     }
 
