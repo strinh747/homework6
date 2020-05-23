@@ -5,39 +5,36 @@ $(document).ready(function() {
     var m = moment();
     currentDate = m.format('MM/DD/YYYY');
 
-    var cities = ["Miami"];
-    renderCities();
+    var storedCities = localStorage.getItem("lastCity");
+    var cities = [];
+    if (storedCities !== null) {
+      cities.push(storedCities);
+    }
     displayCurrentWeather(cities[cities.length-1]);
     displayFiveDayWeather(cities[cities.length-1]);
 
     $("#city-search-button").on("click", function() {
         var city = $("#city-search-input").val();
+        $("#city-search-input").val("");
         cities.push(city);
         if (cities.length > 10) {
         cities = cities.slice(1,11);
         }
-        localStorage.setItem("cities", JSON.stringify(cities));
+        console.log(cities);
+        localStorage.setItem("lastCity", city);
         renderCities();
         displayCurrentWeather(city);
         displayFiveDayWeather(city);
     })
 
     $(document).on("click", ".city-button", function() {
-
         var city = $(this).attr("city-data");
-        cities.push(city);
-        if (cities.length > 10) {
-        cities = cities.slice(1,11);
-        }
-        localStorage.setItem("cities", JSON.stringify(cities));
-        renderCities();
+        localStorage.setItem("lastCity", city);
         displayCurrentWeather(city);
         displayFiveDayWeather(city);
     })
 
     function renderCities() {
-        var storedCities = localStorage.getItem("cities");
-        cities = JSON.parse(storedCities);
         $("#city-button-storage").empty();
         if (cities.length !== null) {
           for (i=0; i<cities.length; i++) {
@@ -57,7 +54,6 @@ $(document).ready(function() {
         
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
-        // Creates AJAX call for the specific movie button being clicked
         $.ajax({
           url: queryURL,
           method: "GET"
@@ -114,7 +110,6 @@ $(document).ready(function() {
         var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
 
 
-        // Creates AJAX call for the specific movie button being clicked
         $.ajax({
           url: queryURL,
           method: "GET"
