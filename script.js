@@ -36,7 +36,7 @@ $(document).ready(function() {
 
     function renderCities() {
         $("#city-button-storage").empty();
-        if (cities.length !== null) {
+        // if (cities.length !== null) {
           for (i=0; i<cities.length; i++) {
               var div = $("<div>");
               var button = $("<button>");
@@ -46,7 +46,7 @@ $(document).ready(function() {
               div.append(button);
               $("#city-button-storage").prepend(div);
           }
-        }
+        // }
     }
 
     function displayCurrentWeather(city) {
